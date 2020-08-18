@@ -1,7 +1,6 @@
 import React from "react";
-import SignUp from "./../../components/Signup";
-import "./styles.scss";
 import Signup from "./../../components/Signup";
+import "./styles.scss";
 
 const Registration = (props) => {
   return <Signup />;
