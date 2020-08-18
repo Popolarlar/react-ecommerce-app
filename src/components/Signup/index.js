@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-
 import { auth, handleUserProfile } from "./../../firebase/utils";
+import AuthWrapper from "./../AuthWrapper";
 import Button from "./../forms/Button";
 import FormInput from "./../forms/FormInput";
 
@@ -32,11 +32,8 @@ const Signup = (props) => {
 
     // Input validation
     if (state.password !== state.confirmPassword) {
-      const err = ["Password not match"];
-      setState((prevState) => ({
-        ...prevState,
-        errors: [...state.errors, err],
-      }));
+      const err = ["Password not match."];
+      setState({ errors: err });
       return;
     }
 
@@ -49,15 +46,19 @@ const Signup = (props) => {
       await handleUserProfile(user, { displayName: state.displayName });
       setState(initialState);
     } catch (error) {
+      // const err = ["Something went wrong when creating user."];
+      // setState({ errors: err });
       console.error(error);
     }
   };
 
-  return (
-    <div className="signup">
-      <div className="wrap">
-        <h2>Signup</h2>
+  const configAuthWrapper = {
+    headline: "Registration",
+  };
 
+  return (
+    <AuthWrapper {...configAuthWrapper}>
+      <div className="formWrap">
         {state.errors.length > 0 && (
           <ul>
             {state.errors.map((err, index) => (
@@ -65,43 +66,41 @@ const Signup = (props) => {
             ))}
           </ul>
         )}
-        <div className="formWrap">
-          <form onSubmit={handleFormSubmit}>
-            <FormInput
-              type="text"
-              name="displayName"
-              value={state.displayName}
-              placeholder="Name"
-              onChange={handleInputChange}
-            />
-            <FormInput
-              type="email"
-              name="email"
-              value={state.email}
-              placeholder="E-mail"
-              onChange={handleInputChange}
-            />
+        <form onSubmit={handleFormSubmit}>
+          <FormInput
+            type="text"
+            name="displayName"
+            value={state.displayName}
+            placeholder="Name"
+            onChange={handleInputChange}
+          />
+          <FormInput
+            type="email"
+            name="email"
+            value={state.email}
+            placeholder="E-mail"
+            onChange={handleInputChange}
+          />
 
-            <FormInput
-              type="password"
-              name="password"
-              value={state.password}
-              placeholder="Password"
-              onChange={handleInputChange}
-            />
+          <FormInput
+            type="password"
+            name="password"
+            value={state.password}
+            placeholder="Password"
+            onChange={handleInputChange}
+          />
 
-            <FormInput
-              type="password"
-              name="confirmPassword"
-              value={state.confirmPassword}
-              placeholder="Confirm Password"
-              onChange={handleInputChange}
-            />
-            <Button type="submit">Register</Button>
-          </form>
-        </div>
+          <FormInput
+            type="password"
+            name="confirmPassword"
+            value={state.confirmPassword}
+            placeholder="Confirm Password"
+            onChange={handleInputChange}
+          />
+          <Button type="submit">Register</Button>
+        </form>
       </div>
-    </div>
+    </AuthWrapper>
   );
 };
 
