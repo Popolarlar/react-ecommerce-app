@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
+
 // firebase
 import { auth, handleUserProfile } from "./firebase/utils";
 // redux
 import { connect } from "react-redux";
 import { setCurrentUser } from "./redux/User/user.actions";
+//hoc
+import WithAuth from "./hoc/withAuth";
 
 // layouts
 import HomepageLayout from "./layouts/HomepageLayout";
@@ -15,6 +18,7 @@ import Homepage from "./pages/Homepage";
 import Registration from "./pages/Registration";
 import Login from "./pages/Login";
 import Recovery from "./pages/Recovery";
+import Dashboard from "./pages/Dashboard";
 
 import "./default.scss";
 
@@ -58,27 +62,19 @@ function App({ currentUser, setCurrentUser }) {
         />
         <Route
           path="/registration"
-          render={() =>
-            currentUser ? (
-              <Redirect to="/" />
-            ) : (
-              <MainLayout>
-                <Registration />
-              </MainLayout>
-            )
-          }
+          render={() => (
+            <MainLayout>
+              <Registration />
+            </MainLayout>
+          )}
         />
         <Route
           path="/login"
-          render={() =>
-            currentUser ? (
-              <Redirect to="/" />
-            ) : (
-              <MainLayout>
-                <Login />
-              </MainLayout>
-            )
-          }
+          render={() => (
+            <MainLayout>
+              <Login />
+            </MainLayout>
+          )}
         />
 
         <Route
@@ -87,6 +83,17 @@ function App({ currentUser, setCurrentUser }) {
             <MainLayout>
               <Recovery />
             </MainLayout>
+          )}
+        />
+
+        <Route
+          path="/dashboard"
+          render={() => (
+            <WithAuth>
+              <MainLayout>
+                <Dashboard />
+              </MainLayout>
+            </WithAuth>
           )}
         />
       </Switch>

@@ -20,7 +20,7 @@ const Header = ({ currentUser }) => {
           {currentUser && (
             <ul>
               <li>
-                <span>Hi, {currentUser.displayName}</span>
+                <Link to="/dashboard">My Account</Link>
               </li>
               <li>
                 <Link onClick={() => auth.signOut()} to="/">

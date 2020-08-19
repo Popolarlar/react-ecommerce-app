@@ -7,22 +7,13 @@ import FormInput from "../forms/FormInput";
 
 import "./styles.scss";
 
-const initialState = {
-  email: "",
-  errors: [],
-};
-
 const EmailPwd = (props) => {
-  const [state, setState] = useState(initialState);
+  const [email, setEmail] = useState("");
+  const [errors, setErrors] = useState([]);
 
-  const handleInputChange = (e) => {
-    e.preventDefault();
-    const { name, value } = e.target;
-
-    setState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+  const resetForm = () => {
+    setEmail("");
+    setErrors("");
   };
 
   const handleFormSubmit = async (e) => {
@@ -35,19 +26,17 @@ const EmailPwd = (props) => {
 
     try {
       await auth
-        .sendPasswordResetEmail(state.email, config)
+        .sendPasswordResetEmail(email, config)
         .then(() => {
           // Redirect location after form submitted
           props.history.push("/login");
-          setState(initialState);
+          resetForm();
         })
         .catch(() => {
           const err = ["Email not found. Please try again."];
-          setState({ errors: err });
+          setErrors(err);
         });
     } catch (error) {
-      // const err = ["Something went wrong when sending password email."];
-      // setState({ errors: err });
       console.error(error);
     }
   };
@@ -59,9 +48,9 @@ const EmailPwd = (props) => {
   return (
     <AuthWrapper {...configAuthWrapper}>
       <div className="formWrap">
-        {state.errors.length > 0 && (
+        {errors.length > 0 && (
           <ul>
-            {state.errors.map((err, index) => (
+            {errors.map((err, index) => (
               <li key={index}>{err}</li>
             ))}
           </ul>
@@ -70,9 +59,9 @@ const EmailPwd = (props) => {
           <FormInput
             type="email"
             name="email"
-            value={state.email}
+            value={email}
             placeholder="E-mail"
-            onChange={handleInputChange}
+            handleChange={(e) => setEmail(e.target.value)}
           />
 
           <Button type="submit">Retrieve</Button>
