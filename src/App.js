@@ -1,11 +1,8 @@
 import React, { useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
-
-// firebase
-import { auth, handleUserProfile } from "./firebase/utils";
 // redux
 import { useDispatch } from "react-redux";
-import { setCurrentUser } from "./redux/User/user.actions";
+import { checkUserSession } from "./redux/User/user.actions";
 //hoc
 import WithAuth from "./hoc/withAuth";
 
@@ -26,30 +23,7 @@ const App = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // Anything in here is fired on component mount.
-    const authListener = auth.onAuthStateChanged(async (authUser) => {
-      if (authUser) {
-        // Add or read uer profile in the DB
-        const userRef = await handleUserProfile(authUser);
-
-        // Write the user to global state
-        userRef.onSnapshot((snapshot) => {
-          dispatch(
-            setCurrentUser({
-              id: snapshot.id,
-              ...snapshot.data(),
-            })
-          );
-        });
-      } else {
-        dispatch(setCurrentUser(authUser));
-      }
-    });
-
-    // returned function will be called on component unmount
-    return () => {
-      authListener();
-    };
+    dispatch(checkUserSession());
   }, []);
 
   return (

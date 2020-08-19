@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { signUpUser, resetAllAuthForms } from "./../../redux/User/user.actions";
 import { withRouter } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { signUpStart } from "./../../redux/User/user.actions";
 
 import AuthWrapper from "./../AuthWrapper";
 import Button from "./../forms/Button";
@@ -10,13 +10,16 @@ import FormInput from "./../forms/FormInput";
 import "./styles.scss";
 
 const mapState = (state) => ({
-  signUpSuccess: state.user.signUpSuccess,
-  signUpError: state.user.signUpError,
+  currentUser: state.user.currentUser,
+  userErr: state.user.userErr,
 });
 
 const Signup = (props) => {
+  // Global state
+  const { currentUser, userErr } = useSelector(mapState);
   const dispatch = useDispatch();
-  const { signUpSuccess, signUpError } = useSelector(mapState);
+
+  // Local state
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,22 +27,21 @@ const Signup = (props) => {
   const [errors, setErrors] = useState([]);
 
   useEffect(() => {
-    if (signUpSuccess) {
+    if (currentUser) {
       resetForm();
       props.history.push("/");
     }
-  }, [signUpSuccess]);
+  }, [currentUser]);
 
   useEffect(() => {
-    if (Array.isArray(signUpError) && signUpError.length > 0) {
-      setErrors(signUpError);
+    if (Array.isArray(userErr) && userErr.length > 0) {
+      setErrors(userErr);
     }
-  }, [signUpError]);
+  }, [userErr]);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-
-    dispatch(signUpUser({ email, password, displayName, confirmPassword }));
+    dispatch(signUpStart({ email, password, displayName, confirmPassword }));
   };
 
   const resetForm = () => {
@@ -48,7 +50,6 @@ const Signup = (props) => {
     setPassword("");
     setConfirmPassword("");
     setErrors("");
-    dispatch(resetAllAuthForms());
   };
 
   const configAuthWrapper = {

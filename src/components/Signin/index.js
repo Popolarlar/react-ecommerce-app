@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  signInUser,
-  signInWithGoogle,
-  resetAllAuthForms,
+  googleSignInStart,
+  emailSignInStart,
 } from "./../../redux/User/user.actions";
 
 import AuthWrapper from "./../AuthWrapper";
@@ -13,39 +12,41 @@ import Button from "./../forms/Button";
 import "./styles.scss";
 
 const mapState = (state) => ({
-  signInSuccess: state.user.signInSuccess,
+  currentUser: state.user.currentUser,
 });
 
 const Signin = (props) => {
+  // Global state
+  const { currentUser } = useSelector(mapState);
   const dispatch = useDispatch();
-  const { signInSuccess } = useSelector(mapState);
+  // Local state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
 
   useEffect(() => {
-    if (signInSuccess) {
+    if (currentUser) {
       resetForm();
       props.history.push("/");
     }
-  }, [signInSuccess]);
+  }, [currentUser]);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     // Error: Actions must be plain objects.
-    dispatch(signInUser({ email, password }));
+    // dispatch(signInUser({ email, password }));
+    dispatch(emailSignInStart({ email, password }));
   };
 
   const handleGoogleSignIn = (e) => {
     e.preventDefault();
-    dispatch(signInWithGoogle());
+    dispatch(googleSignInStart());
   };
 
   const resetForm = () => {
     setEmail("");
     setPassword("");
     setErrors("");
-    dispatch(resetAllAuthForms());
   };
 
   const configAuthWrapper = {

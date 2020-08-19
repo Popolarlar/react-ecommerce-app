@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  emailPassword,
-  resetAllAuthForms,
+  retrievePasswordStart,
+  resetUserState,
 } from "./../../redux/User/user.actions";
 
 import AuthWrapper from "./../AuthWrapper";
@@ -13,39 +13,42 @@ import FormInput from "../forms/FormInput";
 import "./styles.scss";
 
 const mapState = (state) => ({
-  emailPasswordSuccess: state.user.emailPasswordSuccess,
-  emailPasswordError: state.user.emailPasswordError,
+  retrievePasswordSuccess: state.user.retrievePasswordSuccess,
+  userErr: state.user.userErr,
 });
 
 const EmailPwd = (props) => {
+  // Global state
   const dispatch = useDispatch();
-  const { emailPasswordSuccess, emailPasswordError } = useSelector(mapState);
+  const { retrievePasswordSuccess, userErr } = useSelector(mapState);
+
+  // Local state
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState([]);
 
   useEffect(() => {
-    if (emailPasswordSuccess) {
+    if (retrievePasswordSuccess) {
       resetForm();
       // Redirect location after form submitted
+      dispatch(resetUserState());
       props.history.push("/login");
     }
-  }, [emailPasswordSuccess]);
+  }, [retrievePasswordSuccess]);
 
   useEffect(() => {
-    if (Array.isArray(emailPasswordError) && emailPasswordError.length > 0) {
-      setErrors(emailPasswordError);
+    if (Array.isArray(userErr) && userErr.length > 0) {
+      setErrors(userErr);
     }
-  }, [emailPasswordError]);
+  }, [userErr]);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    dispatch(emailPassword({ email }));
+    dispatch(retrievePasswordStart({ email }));
   };
 
   const resetForm = () => {
     setEmail("");
     setErrors("");
-    dispatch(resetAllAuthForms());
   };
 
   const configAuthWrapper = {
