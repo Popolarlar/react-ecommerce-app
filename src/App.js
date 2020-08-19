@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 // firebase
 import { auth, handleUserProfile } from "./firebase/utils";
+// redux
+import { connect } from "react-redux";
+import { setCurrentUser } from "./redux/User/user.actions";
 
 // layouts
 import HomepageLayout from "./layouts/HomepageLayout";
@@ -15,9 +18,7 @@ import Recovery from "./pages/Recovery";
 
 import "./default.scss";
 
-function App() {
-  const [currentUser, setCurrentUser] = useState(null);
-
+function App({ currentUser, setCurrentUser }) {
   useEffect(() => {
     // Anything in here is fired on component mount.
     const authListener = auth.onAuthStateChanged(async (authUser) => {
@@ -25,7 +26,7 @@ function App() {
         // Add or read uer profile in the DB
         const userRef = await handleUserProfile(authUser);
 
-        // Write the user to local state
+        // Write the user to global state
         userRef.onSnapshot((snapshot) => {
           setCurrentUser({
             id: snapshot.id,
@@ -41,7 +42,7 @@ function App() {
     return () => {
       authListener();
     };
-  });
+  }, []);
 
   return (
     <div className="App">
@@ -50,7 +51,7 @@ function App() {
           path="/"
           exact
           render={() => (
-            <HomepageLayout currentUser={currentUser}>
+            <HomepageLayout>
               <Homepage />
             </HomepageLayout>
           )}
@@ -61,7 +62,7 @@ function App() {
             currentUser ? (
               <Redirect to="/" />
             ) : (
-              <MainLayout currentUser={currentUser}>
+              <MainLayout>
                 <Registration />
               </MainLayout>
             )
@@ -73,7 +74,7 @@ function App() {
             currentUser ? (
               <Redirect to="/" />
             ) : (
-              <MainLayout currentUser={currentUser}>
+              <MainLayout>
                 <Login />
               </MainLayout>
             )
@@ -83,7 +84,7 @@ function App() {
         <Route
           path="/recovery"
           render={() => (
-            <MainLayout currentUser={currentUser}>
+            <MainLayout>
               <Recovery />
             </MainLayout>
           )}
@@ -93,4 +94,12 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  currentUser: state.user.currentUser,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

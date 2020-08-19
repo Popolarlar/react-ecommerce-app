@@ -1,12 +1,12 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { auth } from "./../../firebase/utils";
 import Logo from "./../../assets/logo.png";
 import "./styles.scss";
 
-const Header = (props) => {
-  const { currentUser } = props;
+const Header = ({ currentUser }) => {
   return (
     <header className="header">
       <div className="wrap">
@@ -23,7 +23,9 @@ const Header = (props) => {
                 <span>Hi, {currentUser.displayName}</span>
               </li>
               <li>
-                <Link onClick={() => auth.signOut()}>LogOut</Link>
+                <Link onClick={() => auth.signOut()} to="/">
+                  LogOut
+                </Link>
               </li>
             </ul>
           )}
@@ -44,8 +46,12 @@ const Header = (props) => {
   );
 };
 
-Header.defaultProps = {
-  currentUser: null,
-};
+// Header.defaultProps = {
+//   currentUser: null,
+// };
 
-export default Header;
+const mapStateToProps = (state) => ({
+  currentUser: state.user.currentUser,
+});
+
+export default connect(mapStateToProps, null)(Header);
