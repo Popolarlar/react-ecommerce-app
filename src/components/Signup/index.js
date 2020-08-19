@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signUpStart } from "./../../redux/User/user.actions";
 
@@ -16,8 +16,9 @@ const mapState = (state) => ({
 
 const Signup = (props) => {
   // Global state
-  const { currentUser, userErr } = useSelector(mapState);
   const dispatch = useDispatch();
+  const history = useHistory();
+  const { currentUser, userErr } = useSelector(mapState);
 
   // Local state
   const [displayName, setDisplayName] = useState("");
@@ -29,7 +30,7 @@ const Signup = (props) => {
   useEffect(() => {
     if (currentUser) {
       resetForm();
-      props.history.push("/");
+      history.push("/");
     }
   }, [currentUser]);
 
@@ -104,4 +105,4 @@ const Signup = (props) => {
   );
 };
 
-export default withRouter(Signup);
+export default Signup;

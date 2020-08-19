@@ -14,6 +14,7 @@ GoogleProvider.setCustomParameters({ prompt: "select_account" });
 export const handleUserProfile = async ({ authUser, additionalData }) => {
   if (!authUser) return;
 
+  // Check if auth user exist in DB, create one if not
   const { uid } = authUser;
   const userRef = firestore.doc(`users/${uid}`);
   const snapshot = await userRef.get();
@@ -21,11 +22,13 @@ export const handleUserProfile = async ({ authUser, additionalData }) => {
   if (!snapshot.exists) {
     const { displayName, email } = authUser;
     const timestamp = new Date();
+    const userRoles = ["user"];
     try {
       await userRef.set({
         displayName,
         email,
         createdDate: timestamp,
+        userRoles,
         ...additionalData,
       });
     } catch (error) {

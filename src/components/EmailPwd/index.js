@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   retrievePasswordStart,
@@ -20,6 +20,7 @@ const mapState = (state) => ({
 const EmailPwd = (props) => {
   // Global state
   const dispatch = useDispatch();
+  const history = useHistory();
   const { retrievePasswordSuccess, userErr } = useSelector(mapState);
 
   // Local state
@@ -31,7 +32,7 @@ const EmailPwd = (props) => {
       resetForm();
       // Redirect location after form submitted
       dispatch(resetUserState());
-      props.history.push("/login");
+      history.push("/login");
     }
   }, [retrievePasswordSuccess]);
 
@@ -81,4 +82,4 @@ const EmailPwd = (props) => {
   );
 };
 
-export default withRouter(EmailPwd);
+export default EmailPwd;

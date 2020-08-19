@@ -1,27 +1,42 @@
-.signin {
-  display: block;
+.adminToolBar {
+  display: inline-block;
   width: 100%;
-  max-width: 40rem;
-  margin: 4rem auto 6rem;
-  border: 1px solid black;
+  background-color: black;
+  height: auto;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
-.signin .wrap {
-  padding: 1rem;
-}
-
-.signin .wrap h2 {
-  font-size: 2.2rem;
-  line-height: 1;
-  font-weight: 400;
-  text-transform: uppercase;
-  text-align: center;
-  display: block;
-  width: 100%;
+.adminToolBar ul,
+.adminToolBar li {
+  list-style-type: none;
+  margin: 0;
   padding: 0;
-  margin: 0 auto 3rem;
 }
 
-.signin .wrap .socialSignin {
-  margin: 1rem auto;
+.adminToolBar ul {
+  float: right;
+}
+
+.adminToolBar ul li {
+  display: inline-block;
+}
+
+.adminToolBar ul li a {
+  display: block;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: white;
+  padding: 1rem;
+  transition: all 0.4s ease-in-out;
+  -moz-transition: all 0.4s ease-in-out;
+  -webkit-transition: all 0.4s ease-in-out;
+}
+
+.adminToolBar ul li a:hover {
+  background-color: rgba(255, 255, 255, 0.6);
+  color: black;
+  transition: all 0.4s ease-in-out;
+  -moz-transition: all 0.4s ease-in-out;
+  -webkit-transition: all 0.4s ease-in-out;
 }

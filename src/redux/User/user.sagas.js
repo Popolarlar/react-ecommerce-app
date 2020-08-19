@@ -133,9 +133,10 @@ export function* onRetrievePasswordStart() {
 export default function* userSagas() {
   yield all([
     call(onEmailSignInStart),
+    call(onGoogleSignInStart),
     call(onCheckUserSession),
     call(onSignOutStart),
+    call(onSignUpStart),
     call(onRetrievePasswordStart),
-    call(onGoogleSignInStart),
   ]);
 }

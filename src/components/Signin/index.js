@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   googleSignInStart,
@@ -19,6 +19,8 @@ const Signin = (props) => {
   // Global state
   const { currentUser } = useSelector(mapState);
   const dispatch = useDispatch();
+  const history = useHistory();
+
   // Local state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,7 +29,7 @@ const Signin = (props) => {
   useEffect(() => {
     if (currentUser) {
       resetForm();
-      props.history.push("/");
+      history.push("/");
     }
   }, [currentUser]);
 
@@ -93,4 +95,4 @@ const Signin = (props) => {
   );
 };
 
-export default withRouter(Signin);
+export default Signin;
