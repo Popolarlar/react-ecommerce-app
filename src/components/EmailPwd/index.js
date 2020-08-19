@@ -1,44 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
-import { auth } from "../../firebase/utils";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  emailPassword,
+  resetAllAuthForms,
+} from "./../../redux/User/user.actions";
+
 import AuthWrapper from "./../AuthWrapper";
 import Button from "../forms/Button";
 import FormInput from "../forms/FormInput";
 
 import "./styles.scss";
 
+const mapState = (state) => ({
+  emailPasswordSuccess: state.user.emailPasswordSuccess,
+  emailPasswordError: state.user.emailPasswordError,
+});
+
 const EmailPwd = (props) => {
+  const dispatch = useDispatch();
+  const { emailPasswordSuccess, emailPasswordError } = useSelector(mapState);
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState([]);
+
+  useEffect(() => {
+    if (emailPasswordSuccess) {
+      resetForm();
+      // Redirect location after form submitted
+      props.history.push("/login");
+    }
+  }, [emailPasswordSuccess]);
+
+  useEffect(() => {
+    if (Array.isArray(emailPasswordError) && emailPasswordError.length > 0) {
+      setErrors(emailPasswordError);
+    }
+  }, [emailPasswordError]);
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    dispatch(emailPassword({ email }));
+  };
 
   const resetForm = () => {
     setEmail("");
     setErrors("");
-  };
-
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-
-    // Redirect location after reset password
-    const config = {
-      url: "http://localhost:3000/login",
-    };
-
-    try {
-      await auth
-        .sendPasswordResetEmail(email, config)
-        .then(() => {
-          // Redirect location after form submitted
-          props.history.push("/login");
-          resetForm();
-        })
-        .catch(() => {
-          const err = ["Email not found. Please try again."];
-          setErrors(err);
-        });
-    } catch (error) {
-      console.error(error);
-    }
+    dispatch(resetAllAuthForms());
   };
 
   const configAuthWrapper = {

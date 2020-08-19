@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 
 // firebase
 import { auth, handleUserProfile } from "./firebase/utils";
 // redux
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setCurrentUser } from "./redux/User/user.actions";
 //hoc
 import WithAuth from "./hoc/withAuth";
@@ -22,7 +22,9 @@ import Dashboard from "./pages/Dashboard";
 
 import "./default.scss";
 
-function App({ currentUser, setCurrentUser }) {
+const App = (props) => {
+  const dispatch = useDispatch();
+
   useEffect(() => {
     // Anything in here is fired on component mount.
     const authListener = auth.onAuthStateChanged(async (authUser) => {
@@ -32,13 +34,15 @@ function App({ currentUser, setCurrentUser }) {
 
         // Write the user to global state
         userRef.onSnapshot((snapshot) => {
-          setCurrentUser({
-            id: snapshot.id,
-            ...snapshot.data(),
-          });
+          dispatch(
+            setCurrentUser({
+              id: snapshot.id,
+              ...snapshot.data(),
+            })
+          );
         });
       } else {
-        setCurrentUser(null);
+        dispatch(setCurrentUser(authUser));
       }
     });
 
@@ -99,14 +103,6 @@ function App({ currentUser, setCurrentUser }) {
       </Switch>
     </div>
   );
-}
+};
 
-const mapStateToProps = (state) => ({
-  currentUser: state.user.currentUser,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

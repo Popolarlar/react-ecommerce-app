@@ -1,31 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { signInWithGoogle, auth } from "./../../firebase/utils";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInUser,
+  signInWithGoogle,
+  resetAllAuthForms,
+} from "./../../redux/User/user.actions";
+
 import AuthWrapper from "./../AuthWrapper";
 import FormInput from "./../forms/FormInput";
 import Button from "./../forms/Button";
 import "./styles.scss";
 
+const mapState = (state) => ({
+  signInSuccess: state.user.signInSuccess,
+});
+
 const Signin = (props) => {
+  const dispatch = useDispatch();
+  const { signInSuccess } = useSelector(mapState);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
+
+  useEffect(() => {
+    if (signInSuccess) {
+      resetForm();
+      props.history.push("/");
+    }
+  }, [signInSuccess]);
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    // Error: Actions must be plain objects.
+    dispatch(signInUser({ email, password }));
+  };
+
+  const handleGoogleSignIn = (e) => {
+    e.preventDefault();
+    dispatch(signInWithGoogle());
+  };
 
   const resetForm = () => {
     setEmail("");
     setPassword("");
     setErrors("");
-  };
-
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      auth.signInWithEmailAndPassword(email, password);
-      resetForm();
-      props.history.push("/");
-    } catch (error) {
-      console.error(error);
-    }
+    dispatch(resetAllAuthForms());
   };
 
   const configAuthWrapper = {
@@ -60,7 +80,7 @@ const Signin = (props) => {
 
           <div className="socialSignin">
             <div className="row">
-              <Button onClick={signInWithGoogle}>Google Sign in</Button>
+              <Button onClick={handleGoogleSignIn}>Google Sign in</Button>
             </div>
           </div>
           <div className="links">
