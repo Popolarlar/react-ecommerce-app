@@ -49,3 +49,12 @@ export const retrievePasswordSuccess = () => ({
 export const resetUserState = () => ({
   type: userTypes.RESET_USER_STATE,
 });
+
+export const fetchUsersStart = () => ({
+  type: userTypes.FETCH_USERS_START,
+});
+
+export const fetchUsersSuccess = (users) => ({
+  type: userTypes.FETCH_USERS_SUCCESS,
+  payload: users,
+});

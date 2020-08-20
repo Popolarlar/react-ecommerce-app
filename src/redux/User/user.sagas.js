@@ -5,6 +5,7 @@ import {
   signOutSuccess,
   retrievePasswordSuccess,
   userError,
+  fetchUsersSuccess,
 } from "./user.actions";
 import {
   auth,
@@ -12,7 +13,7 @@ import {
   getCurrentUser,
   GoogleProvider,
 } from "./../../firebase/utils";
-import { handleRetrievePasswordAPI } from "./user.helpers";
+import { handleRetrievePasswordAPI, handleFetchUsers } from "./user.helpers";
 
 // Sign in
 export function* getSnapshotFromAuthUser(user, additionalData = {}) {
@@ -129,6 +130,19 @@ export function* onRetrievePasswordStart() {
   yield takeLatest(userTypes.RETRIEVE_PASSWORD_START, retrievePassword);
 }
 
+// Fetch users
+export function* fetchUsers() {
+  try {
+    const users = yield handleFetchUsers();
+    yield put(fetchUsersSuccess(users));
+  } catch (error) {
+    console.log(error);
+  }
+}
+export function* onFetchUsersStart() {
+  yield takeLatest(userTypes.FETCH_USERS_START, fetchUsers);
+}
+
 // All
 export default function* userSagas() {
   yield all([
@@ -138,5 +152,6 @@ export default function* userSagas() {
     call(onSignOutStart),
     call(onSignUpStart),
     call(onRetrievePasswordStart),
+    call(onFetchUsersStart),
   ]);
 }

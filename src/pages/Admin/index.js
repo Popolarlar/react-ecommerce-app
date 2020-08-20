@@ -1,16 +1,26 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 import "./styles.scss";
-const mapState = (state) => ({
-  currentUser: state.user.currentUser,
-});
 
 const Admin = (props) => {
-  // Global state
-  const { currentUser } = useSelector(mapState);
-
-  return <div>Hello, admin</div>;
+  return (
+    <div className="admin">
+      <div className="callToActions">
+        <ul>
+          <li>
+            <span>I want to...</span>
+          </li>
+          <li>
+            <Link to="/admin/manageUser">Manage User</Link>
+          </li>
+          <li>
+            <Link to="/admin/manageProduct">Manage Product</Link>
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
 };
 
 export default Admin;

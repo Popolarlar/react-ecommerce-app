@@ -3,6 +3,7 @@ import userTypes from "./user.types";
 const INITIAL_STATE = {
   currentUser: null,
   retrievePasswordSuccess: false,
+  users: [],
   userErr: [],
 };
 
@@ -12,7 +13,6 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         currentUser: action.payload,
-        retrievePasswordSuccess: false,
         userErr: [],
       };
     case userTypes.RETRIEVE_PASSWORD_SUCCESS:
@@ -32,6 +32,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         ...INITIAL_STATE,
       };
+    case userTypes.FETCH_USERS_SUCCESS:
+      return { ...state, users: action.payload };
     default:
       return state;
   }

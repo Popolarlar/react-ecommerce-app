@@ -42,6 +42,7 @@ a:hover {
   -moz-transition: all 0.4s ease-in-out;
   -webkit-transition: all 0.4s ease-in-out;
 }
+
 button {
   // font-family: "Lato", sans-serif;
   font-family: "Work Sans", sans-serif;
@@ -50,7 +51,38 @@ button {
 .main {
   width: 100%;
   max-width: 1450px;
-  height: calc(100% - 7rem);
+  height: calc(100% - 6.5rem);
   padding: 0 10px;
   margin: 0 auto;
+}
+
+.adminLayout {
+  height: calc(100% - 6.5rem - 5.8rem - 3.6rem);
+}
+
+.dashboardLayout {
+  height: calc(100% - 6.5rem - 5.8rem);
+}
+
+.controlPanel {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  min-height: 100%;
+  padding: 3rem 0 6rem 25rem;
+  border-bottom: 1px solid #d3d3d3;
+
+  .sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 25rem;
+    height: 100%;
+    z-index: 1;
+    border-right: 1px solid #d3d3d3;
+  }
+
+  .content {
+    padding: 0 10px;
+  }
 }

@@ -12,6 +12,8 @@ import WithAdminAuth from "./hoc/withAdminAuth";
 // layouts
 import HomepageLayout from "./layouts/HomepageLayout";
 import MainLayout from "./layouts/MainLayout";
+import DashboardLayout from "./layouts/DashboardLayout";
+import AdminLayout from "./layouts/AdminLayout";
 
 // pages
 import Homepage from "./pages/Homepage";
@@ -20,6 +22,8 @@ import Login from "./pages/Login";
 import Recovery from "./pages/Recovery";
 import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
+import ManageUser from "./pages/Admin/ManageUser";
+import ManageProduct from "./pages/Admin/ManageProduct";
 
 // components
 import AdminToolBar from "./components/AdminToolBar";
@@ -76,10 +80,32 @@ const App = (props) => {
           path="/dashboard"
           render={() => (
             <WithAuth>
-              <MainLayout>
+              <DashboardLayout>
                 <Dashboard />
-              </MainLayout>
+              </DashboardLayout>
             </WithAuth>
+          )}
+        />
+
+        <Route
+          path="/admin/manageUser"
+          render={() => (
+            <WithAdminAuth>
+              <AdminLayout>
+                <ManageUser />
+              </AdminLayout>
+            </WithAdminAuth>
+          )}
+        />
+
+        <Route
+          path="/admin/manageProduct"
+          render={() => (
+            <WithAdminAuth>
+              <AdminLayout>
+                <ManageProduct />
+              </AdminLayout>
+            </WithAdminAuth>
           )}
         />
 
@@ -87,9 +113,9 @@ const App = (props) => {
           path="/admin"
           render={() => (
             <WithAdminAuth>
-              <MainLayout>
+              <AdminLayout>
                 <Admin />
-              </MainLayout>
+              </AdminLayout>
             </WithAdminAuth>
           )}
         />
