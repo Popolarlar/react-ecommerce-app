@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   fetchProductsStart,
@@ -16,9 +17,10 @@ const mapState = (state) => ({
   products: state.product.products,
 });
 
-const Admin = (props) => {
+const ManageProduct = (props) => {
   // Global state
   const dispatch = useDispatch();
+  const history = useHistory();
   const { products } = useSelector(mapState);
 
   // Local state
@@ -53,6 +55,10 @@ const Admin = (props) => {
     resetForm();
   };
 
+  const handleEditClick = (documentID) => {
+    history.push(`manageProduct/edit/${documentID}`);
+  };
+
   const resetForm = () => {
     setHideModal(true);
     setProductCategory("mens");
@@ -72,7 +78,7 @@ const Admin = (props) => {
       </div>
 
       <Modal {...configModal}>
-        <div className="addNewProductForm">
+        <div className="addProductForm">
           <form onSubmit={handleSubmit}>
             <h2>Add product</h2>
 
@@ -80,12 +86,12 @@ const Admin = (props) => {
               label="Category"
               options={[
                 {
-                  value: "mens",
-                  name: "Mens",
+                  value: "men",
+                  name: "Men",
                 },
                 {
-                  value: "womens",
-                  name: "Womens",
+                  value: "women",
+                  name: "Women",
                 },
               ]}
               handleChange={(e) => setProductCategory(e.target.value)}
@@ -153,6 +159,11 @@ const Admin = (props) => {
                           <td>{productName}</td>
                           <td>${productPrice}</td>
                           <td>
+                            <Button onClick={() => handleEditClick(documentID)}>
+                              Edit
+                            </Button>
+                          </td>
+                          <td>
                             <Button
                               onClick={() =>
                                 dispatch(deleteProductStart(documentID))
@@ -175,4 +186,4 @@ const Admin = (props) => {
   );
 };
 
-export default Admin;
+export default ManageProduct;

@@ -18,3 +18,8 @@ export const deleteProductStart = (documentID) => ({
   type: productTypes.DELETE_PRODUCT_START,
   payload: documentID,
 });
+
+export const updateProductStart = (product) => ({
+  type: productTypes.UPDATE_PRODUCT_START,
+  payload: product,
+});

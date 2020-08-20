@@ -2,12 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { signOutStart } from "./../redux/User/user.actions";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
 
-import Header from "../components/Header";
 import VerticalNav from "../components/VerticalNav";
-import Footer from "../components/Footer";
 
 const AdminLayout = (props) => {
   const dispatch = useDispatch();
@@ -18,7 +14,6 @@ const AdminLayout = (props) => {
 
   return (
     <div className="adminLayout">
-      <Header {...props} />
       <div className="controlPanel">
         <div className="sidebar">
           <VerticalNav>
@@ -42,7 +37,6 @@ const AdminLayout = (props) => {
         </div>
         <div className="content"> {props.children}</div>
       </div>
-      <Footer />
     </div>
   );
 };

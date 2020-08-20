@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { signOutStart } from "../../redux/User/user.actions";
+import { checkUserIsAdmin } from "./../../Utils";
 
 import Logo from "./../../assets/logo.png";
 import "./styles.scss";
@@ -14,6 +15,8 @@ const Header = () => {
   // Global state
   const dispatch = useDispatch();
   const { currentUser } = useSelector(mapState);
+
+  const isAdmin = checkUserIsAdmin(currentUser);
 
   const signOut = () => {
     dispatch(signOutStart());
@@ -31,8 +34,13 @@ const Header = () => {
         <div className="callToActions">
           {currentUser && (
             <ul>
+              {isAdmin && (
+                <li>
+                  <Link to="/admin">Admin</Link>
+                </li>
+              )}
               <li>
-                <Link to="/dashboard">My Account</Link>
+                <Link to="/dashboard">Account</Link>
               </li>
               <li>
                 <Link onClick={signOut} to="/">

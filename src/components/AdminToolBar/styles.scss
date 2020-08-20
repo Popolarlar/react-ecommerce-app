@@ -1,10 +1,13 @@
 .adminToolBar {
+  position: fixed;
+  top: 0;
   display: inline-block;
   width: 100%;
   background-color: black;
   height: auto;
   margin: 0 auto;
   padding: 0 1rem;
+  z-index: 3;
 
   ul,
   li {

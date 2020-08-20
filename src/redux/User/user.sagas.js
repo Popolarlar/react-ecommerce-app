@@ -107,7 +107,7 @@ export function* signUp({
     const { user } = yield auth.createUserWithEmailAndPassword(email, password);
     const additionalData = { displayName };
     // Update redux store
-    yield yield getSnapshotFromAuthUser(user, additionalData);
+    yield getSnapshotFromAuthUser(user, additionalData);
   } catch (error) {
     console.log(error);
   }

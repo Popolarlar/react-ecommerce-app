@@ -24,9 +24,11 @@ import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
 import ManageUser from "./pages/Admin/ManageUser";
 import ManageProduct from "./pages/Admin/ManageProduct";
+import EditProduct from "./pages/Admin/EditProduct";
 
 // components
-import AdminToolBar from "./components/AdminToolBar";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 import "./default.scss";
 
@@ -39,7 +41,8 @@ const App = (props) => {
 
   return (
     <div className="App">
-      <AdminToolBar />
+      {/* <AdminToolBar /> */}
+      <Header />
       <Switch>
         <Route
           path="/"
@@ -97,7 +100,16 @@ const App = (props) => {
             </WithAdminAuth>
           )}
         />
-
+        <Route
+          path="/admin/manageProduct/edit/:id"
+          render={(routerProps) => (
+            <WithAdminAuth>
+              <AdminLayout>
+                <EditProduct documentID={routerProps.match.params.id} />
+              </AdminLayout>
+            </WithAdminAuth>
+          )}
+        />
         <Route
           path="/admin/manageProduct"
           render={() => (
@@ -120,6 +132,7 @@ const App = (props) => {
           )}
         />
       </Switch>
+      <Footer />
     </div>
   );
 };

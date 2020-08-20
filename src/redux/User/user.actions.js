@@ -58,3 +58,8 @@ export const fetchUsersSuccess = (users) => ({
   type: userTypes.FETCH_USERS_SUCCESS,
   payload: users,
 });
+
+export const addUserStart = (user) => ({
+  type: userTypes.ADD_USERS_START,
+  payload: user,
+});

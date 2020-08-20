@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { signOutStart } from "./../redux/User/user.actions";
 
-import Header from "../components/Header";
 import VerticalNav from "./../components/VerticalNav";
-import Footer from "../components/Footer";
 
 const DashboardLayout = (props) => {
   const dispatch = useDispatch();
@@ -15,7 +13,6 @@ const DashboardLayout = (props) => {
   };
   return (
     <div className="dashboardLayout">
-      <Header {...props} />
       <div className="controlPanel">
         <div className="sidebar">
           <VerticalNav>
@@ -33,7 +30,6 @@ const DashboardLayout = (props) => {
         </div>
         <div className="content">{props.children}</div>
       </div>
-      <Footer />
     </div>
   );
 };

@@ -36,3 +36,14 @@ export const handleDeleteProduct = (documentID) => {
       .catch((err) => reject(err));
   });
 };
+
+export const handleUpdateProduct = ({ documentID, product }) => {
+  return new Promise((resolve, reject) => {
+    firestore
+      .collection("products")
+      .doc(documentID)
+      .set(product)
+      .then(() => resolve())
+      .catch((err) => reject(err));
+  });
+};
