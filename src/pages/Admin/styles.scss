@@ -1,7 +1,7 @@
 .admin {
   padding: 0 10px;
 
-  .callToActions {
+  &__action {
     display: inline-block;
     width: 100%;
     padding: 0;
@@ -16,7 +16,12 @@
 
     ul {
       li {
-        display: inline-block;
+        a {
+          font-size: 2rem;
+          line-height: 2;
+          text-decoration: none;
+          color: #d3d3d3;
+        }
       }
     }
   }

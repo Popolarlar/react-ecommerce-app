@@ -6,6 +6,7 @@ import {
   retrievePasswordSuccess,
   userError,
   fetchUsersSuccess,
+  updatePasswordSuccess,
 } from "./user.actions";
 import {
   auth,
@@ -40,6 +41,8 @@ export function* emailSignIn({ payload: { email, password } }) {
     const { user } = yield auth.signInWithEmailAndPassword(email, password);
     yield getSnapshotFromAuthUser(user);
   } catch (error) {
+    // const err = [error.message];
+    // yield put(userError(err));
     console.error(error);
   }
 }
@@ -52,6 +55,8 @@ export function* googleSignIn() {
     const { user } = yield auth.signInWithPopup(GoogleProvider);
     yield getSnapshotFromAuthUser(user);
   } catch (error) {
+    // const err = [error.message];
+    // yield put(userError(err));
     console.error(error);
   }
 }
@@ -109,6 +114,8 @@ export function* signUp({
     // Update redux store
     yield getSnapshotFromAuthUser(user, additionalData);
   } catch (error) {
+    // const err = [error.message];
+    // yield put(userError(err));
     console.log(error);
   }
 }
@@ -122,12 +129,35 @@ export function* retrievePassword({ payload: { email } }) {
     yield call(handleRetrievePasswordAPI, email);
     yield put(retrievePasswordSuccess());
   } catch (error) {
-    yield put(userError(error));
-    console.log(error);
+    const err = [error.message];
+    yield put(userError(err));
+    // console.log(error);
   }
 }
 export function* onRetrievePasswordStart() {
   yield takeLatest(userTypes.RETRIEVE_PASSWORD_START, retrievePassword);
+}
+
+// Change password
+export function* updatePassword({ payload: { password, confirmPassword } }) {
+  if (password !== confirmPassword) {
+    const err = ["Password not match."];
+    // Dispatch an error to update redux store
+    yield put(userError(err));
+    return;
+  }
+
+  try {
+    yield auth.currentUser.updatePassword(password);
+    yield put(updatePasswordSuccess());
+  } catch (error) {
+    const err = [error.message];
+    yield put(userError(err));
+    // console.log(error);
+  }
+}
+export function* onUpdatePasswordStart() {
+  yield takeLatest(userTypes.UPDATE_PASSWORD_START, updatePassword);
 }
 
 // Fetch users
@@ -152,6 +182,7 @@ export default function* userSagas() {
     call(onSignOutStart),
     call(onSignUpStart),
     call(onRetrievePasswordStart),
+    call(onUpdatePasswordStart),
     call(onFetchUsersStart),
   ]);
 }

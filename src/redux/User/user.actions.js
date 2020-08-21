@@ -46,6 +46,16 @@ export const retrievePasswordSuccess = () => ({
   payload: true,
 });
 
+export const updatePasswordStart = (userCredentials) => ({
+  type: userTypes.UPDATE_PASSWORD_START,
+  payload: userCredentials,
+});
+
+export const updatePasswordSuccess = () => ({
+  type: userTypes.UPDATE_PASSWORD_SUCCESS,
+  payload: true,
+});
+
 export const resetUserState = () => ({
   type: userTypes.RESET_USER_STATE,
 });

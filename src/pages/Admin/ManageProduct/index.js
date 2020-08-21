@@ -34,7 +34,13 @@ const ManageProduct = (props) => {
     dispatch(fetchProductsStart());
   }, []); // []: Only runs on first initial render of Admin component
 
-  const toggleModal = () => setHideModal(!hideModal);
+  const toggleModal = () => {
+    setHideModal(!hideModal);
+    setProductCategory("mens");
+    setProductName("");
+    setProductThumbnail("");
+    setProductPrice(0);
+  };
 
   const configModal = {
     hideModal,
@@ -68,8 +74,10 @@ const ManageProduct = (props) => {
   };
 
   return (
-    <div className="admin">
-      <div className="callToActions">
+    <div className="manage-product">
+      <h1>Manage Products</h1>
+
+      <div className="manage-product__action">
         <ul>
           <li>
             <Button onClick={() => toggleModal()}>Add product</Button>
@@ -77,11 +85,47 @@ const ManageProduct = (props) => {
         </ul>
       </div>
 
+      <div className="manage-product__info">
+        <table border="0" cellPadding="10" cellSpacing="0">
+          <tbody>
+            {products.map((product, index) => {
+              const {
+                productName,
+                productThumbnail,
+                productPrice,
+                documentID,
+              } = product;
+
+              return (
+                <tr key={index}>
+                  <td>
+                    <img className="thumb" src={productThumbnail} />
+                  </td>
+                  <td>{productName}</td>
+                  <td>${productPrice}</td>
+                  <td>
+                    <Button onClick={() => handleEditClick(documentID)}>
+                      Edit
+                    </Button>
+                  </td>
+                  <td>
+                    <Button
+                      onClick={() => dispatch(deleteProductStart(documentID))}
+                    >
+                      Delete
+                    </Button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
       <Modal {...configModal}>
         <div className="addProductForm">
+          <h2>Add product</h2>
           <form onSubmit={handleSubmit}>
-            <h2>Add product</h2>
-
             <FormSelect
               label="Category"
               options={[
@@ -125,63 +169,6 @@ const ManageProduct = (props) => {
           </form>
         </div>
       </Modal>
-
-      <div className="manageProducts">
-        <table border="0" cellPadding="0" cellSpacing="0">
-          <tbody>
-            <tr>
-              <th>
-                <h1>Manage Products</h1>
-              </th>
-            </tr>
-            <tr>
-              <td>
-                <table
-                  className="results"
-                  border="0"
-                  cellPadding="10"
-                  cellSpacing="0"
-                >
-                  <tbody>
-                    {products.map((product, index) => {
-                      const {
-                        productName,
-                        productThumbnail,
-                        productPrice,
-                        documentID,
-                      } = product;
-
-                      return (
-                        <tr key={index}>
-                          <td>
-                            <img className="thumb" src={productThumbnail} />
-                          </td>
-                          <td>{productName}</td>
-                          <td>${productPrice}</td>
-                          <td>
-                            <Button onClick={() => handleEditClick(documentID)}>
-                              Edit
-                            </Button>
-                          </td>
-                          <td>
-                            <Button
-                              onClick={() =>
-                                dispatch(deleteProductStart(documentID))
-                              }
-                            >
-                              Delete
-                            </Button>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
   );
 };

@@ -13,11 +13,12 @@ import "./styles.scss";
 
 const mapState = (state) => ({
   currentUser: state.user.currentUser,
+  userErr: state.user.userErr,
 });
 
 const Signin = (props) => {
   // Global state
-  const { currentUser } = useSelector(mapState);
+  const { currentUser, userErr } = useSelector(mapState);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -32,6 +33,12 @@ const Signin = (props) => {
       history.push("/");
     }
   }, [currentUser]);
+
+  useEffect(() => {
+    if (Array.isArray(userErr) && userErr.length > 0) {
+      setErrors(userErr);
+    }
+  }, [userErr]);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -59,9 +66,13 @@ const Signin = (props) => {
     <AuthWrapper {...configAuthWrapper}>
       <div className="formWrap">
         {errors.length > 0 && (
-          <ul>
-            {errors.map((err, index) => <li key={index}>{err}</li>).join("")}
-          </ul>
+          <div className="error-text">
+            <ul>
+              {errors.map((err, index) => (
+                <li key={index}>{err}</li>
+              ))}
+            </ul>
+          </div>
         )}
         <form onSubmit={handleFormSubmit}>
           <FormInput

@@ -10,7 +10,11 @@ const Dashboard = (props) => {
   // Global state
   const { currentUser } = useSelector(mapState);
 
-  return <div>Hello, {currentUser.displayName}</div>;
+  return (
+    <div className="dashboard">
+      <h1>Hello, {currentUser.displayName}</h1>
+    </div>
+  );
 };
 
 export default Dashboard;

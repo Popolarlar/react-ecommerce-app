@@ -1,7 +1,7 @@
-.admin {
+.manage-user {
   padding: 0 10px;
 
-  .callToActions {
+  &__action {
     display: inline-block;
     width: 100%;
     padding: 0;
@@ -20,22 +20,18 @@
       }
     }
   }
-}
 
-.manageUsers {
-  h1 {
-    margin-top: 1.5rem;
-  }
+  &__info {
+    table {
+      tr {
+        // &:nth-child(even) {
+        //   background-color: #f0efeb;
+        // }
 
-  table.results {
-    tr {
-      // &:nth-child(even) {
-      //   background-color: #f0efeb;
-      // }
-
-      .thumb {
-        width: 10rem;
-        margin: 0 auto;
+        .thumb {
+          width: 10rem;
+          margin: 0 auto;
+        }
       }
     }
   }

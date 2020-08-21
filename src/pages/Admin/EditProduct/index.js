@@ -59,11 +59,10 @@ const EditProduct = (props) => {
   };
 
   return (
-    <div className="admin">
-      <div className="EditProductForm">
+    <div className="edit-product">
+      <h1>Edit product</h1>
+      <div className="edit-product__form">
         <form onSubmit={handleSubmit}>
-          <h2>Edit product</h2>
-
           <FormSelect
             label="Category"
             options={[

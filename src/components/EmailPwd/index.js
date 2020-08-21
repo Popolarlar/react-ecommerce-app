@@ -60,11 +60,13 @@ const EmailPwd = (props) => {
     <AuthWrapper {...configAuthWrapper}>
       <div className="formWrap">
         {errors.length > 0 && (
-          <ul>
-            {errors.map((err, index) => (
-              <li key={index}>{err}</li>
-            ))}
-          </ul>
+          <div className="error-text">
+            <ul>
+              {errors.map((err, index) => (
+                <li key={index}>{err}</li>
+              ))}
+            </ul>
+          </div>
         )}
         <form onSubmit={handleFormSubmit}>
           <FormInput

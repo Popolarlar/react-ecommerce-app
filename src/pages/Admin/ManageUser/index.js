@@ -29,7 +29,12 @@ const ManageUser = (props) => {
     dispatch(fetchUsersStart());
   }, []); // []: Only runs on first initial render of Admin component
 
-  const toggleModal = () => setHideModal(!hideModal);
+  const toggleModal = () => {
+    setHideModal(!hideModal);
+    setDisplayName("");
+    setEmail("");
+    setPassword("");
+  };
 
   const configModal = {
     hideModal,
@@ -55,13 +60,39 @@ const ManageUser = (props) => {
   };
 
   return (
-    <div className="admin">
-      <div className="callToActions">
+    <div className="manage-user">
+      <h1>Manage Users</h1>
+      <div className="manage-user__action">
         <ul>
           <li>
             <Button onClick={() => toggleModal()}>Add User</Button>
           </li>
         </ul>
+      </div>
+
+      <div className="manage-user__info">
+        <table border="0" cellPadding="10" cellSpacing="0">
+          <tbody>
+            {users.map((user, index) => {
+              const { displayName, email, userRoles, createDate } = user;
+
+              return (
+                <tr key={index}>
+                  <td>{displayName}</td>
+                  <td>{email}</td>
+                  <td>
+                    <ul>
+                      {userRoles.map((role) => {
+                        return <li>{role}</li>;
+                      })}
+                    </ul>
+                  </td>
+                  <td>{createDate}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
 
       <Modal {...configModal}>
@@ -94,54 +125,6 @@ const ManageUser = (props) => {
           </form>
         </div>
       </Modal>
-
-      <div className="manageUsers">
-        <table border="0" cellPadding="0" cellSpacing="0">
-          <tbody>
-            <tr>
-              <th>
-                <h1>Manage Users</h1>
-              </th>
-            </tr>
-            <tr>
-              <td>
-                <table
-                  className="results"
-                  border="0"
-                  cellPadding="10"
-                  cellSpacing="0"
-                >
-                  <tbody>
-                    {users.map((user, index) => {
-                      const {
-                        displayName,
-                        email,
-                        userRoles,
-                        createDate,
-                      } = user;
-
-                      return (
-                        <tr key={index}>
-                          <td>{displayName}</td>
-                          <td>{email}</td>
-                          <td>
-                            <ul>
-                              {userRoles.map((role) => {
-                                return <li>{role}</li>;
-                              })}
-                            </ul>
-                          </td>
-                          <td>{createDate}</td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
   );
 };

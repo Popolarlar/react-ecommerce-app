@@ -21,6 +21,9 @@ const DashboardLayout = (props) => {
                 <Link to="/dashboard">Home</Link>
               </li>
               <li>
+                <Link to="/dashboard/profile">Profile</Link>
+              </li>
+              <li>
                 <span className="signOut" onClick={() => signOut()}>
                   Sign Out
                 </span>

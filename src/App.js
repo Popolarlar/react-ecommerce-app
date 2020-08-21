@@ -31,6 +31,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 
 import "./default.scss";
+import Profile from "./pages/Dashboard/Profile";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -76,6 +77,17 @@ const App = (props) => {
             <MainLayout>
               <Recovery />
             </MainLayout>
+          )}
+        />
+
+        <Route
+          path="/dashboard/profile"
+          render={() => (
+            <WithAuth>
+              <DashboardLayout>
+                <Profile />
+              </DashboardLayout>
+            </WithAuth>
           )}
         />
 

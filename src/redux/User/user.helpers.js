@@ -33,3 +33,16 @@ export const handleRetrievePasswordAPI = (email) => {
       });
   });
 };
+
+export const handleUpdatePasswordAPI = (password) => {
+  return new Promise((resolve, reject) => {
+    auth.currentUser
+      .updatePassword(password)
+      .then(() => {
+        resolve();
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
