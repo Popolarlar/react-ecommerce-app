@@ -13,6 +13,7 @@ import Button from "../../../components/forms/Button";
 import "./styles.scss";
 const mapState = (state) => ({
   products: state.product.products,
+  categories: state.product.categories,
 });
 
 const EditProduct = (props) => {
@@ -21,7 +22,7 @@ const EditProduct = (props) => {
   // Global state
   const dispatch = useDispatch();
   const history = useHistory();
-  const { products } = useSelector(mapState);
+  const { products, categories } = useSelector(mapState);
   useEffect(() => {
     dispatch(fetchProductsStart());
   }, []);
@@ -29,6 +30,11 @@ const EditProduct = (props) => {
   const initialState = products.find(
     (product) => product.documentID === documentID
   );
+
+  const configCategoriesOption = categories.map((category) => {
+    const { categoryName } = category;
+    return { name: categoryName, value: categoryName };
+  });
 
   // Local state
   const [productCategory, setProductCategory] = useState(
@@ -65,16 +71,7 @@ const EditProduct = (props) => {
         <form onSubmit={handleSubmit}>
           <FormSelect
             label="Category"
-            options={[
-              {
-                value: "men",
-                name: "Men",
-              },
-              {
-                value: "women",
-                name: "Women",
-              },
-            ]}
+            options={configCategoriesOption}
             defaultValue={productCategory}
             handleChange={(e) => setProductCategory(e.target.value)}
           />
