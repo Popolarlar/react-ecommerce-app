@@ -10,7 +10,6 @@ import WithAuth from "./hoc/withAuth";
 import WithAdminAuth from "./hoc/withAdminAuth";
 
 // layouts
-import HomepageLayout from "./layouts/HomepageLayout";
 import MainLayout from "./layouts/MainLayout";
 import DashboardLayout from "./layouts/DashboardLayout";
 import AdminLayout from "./layouts/AdminLayout";
@@ -20,17 +19,20 @@ import Homepage from "./pages/Homepage";
 import Registration from "./pages/Registration";
 import Login from "./pages/Login";
 import Recovery from "./pages/Recovery";
+import ProductDetail from "./pages/ProductDetail";
+import ProductList from "./pages/ProductList";
 import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
 import ManageUser from "./pages/Admin/ManageUser";
 import ManageProduct from "./pages/Admin/ManageProduct";
 import EditProduct from "./pages/Admin/EditProduct";
+import ManageCategory from "./pages/Admin/ManageCategory";
 
 // components
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
-import "./default.scss";
+import "./styles/main.scss";
 import Profile from "./pages/Dashboard/Profile";
 
 const App = (props) => {
@@ -49,9 +51,9 @@ const App = (props) => {
           path="/"
           exact
           render={() => (
-            <HomepageLayout>
+            <MainLayout>
               <Homepage />
-            </HomepageLayout>
+            </MainLayout>
           )}
         />
         <Route
@@ -76,6 +78,22 @@ const App = (props) => {
           render={() => (
             <MainLayout>
               <Recovery />
+            </MainLayout>
+          )}
+        />
+        <Route
+          path="/products/:id"
+          render={(routerProps) => (
+            <MainLayout>
+              <ProductDetail documentID={routerProps.match.params.id} />
+            </MainLayout>
+          )}
+        />
+        <Route
+          path="/products"
+          render={() => (
+            <MainLayout>
+              <ProductList />
             </MainLayout>
           )}
         />
@@ -128,6 +146,17 @@ const App = (props) => {
             <WithAdminAuth>
               <AdminLayout>
                 <ManageProduct />
+              </AdminLayout>
+            </WithAdminAuth>
+          )}
+        />
+
+        <Route
+          path="/admin/manageCategory"
+          render={() => (
+            <WithAdminAuth>
+              <AdminLayout>
+                <ManageCategory />
               </AdminLayout>
             </WithAdminAuth>
           )}

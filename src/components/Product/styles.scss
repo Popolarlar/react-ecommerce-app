@@ -1,0 +1,25 @@
+.product {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__img {
+    padding: 1rem 0;
+
+    img {
+      width: 20rem;
+      height: 20rem;
+      transition: all 0.1s ease-in-out;
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  &__price {
+    font-size: 2rem;
+  }
+}

@@ -5,6 +5,7 @@ import {
   fetchProductsStart,
   addProductStart,
   deleteProductStart,
+  fetchCategoriesStart,
 } from "../../../redux/Product/product.actions";
 
 import Modal from "../../../components/Modal";
@@ -15,13 +16,14 @@ import Button from "../../../components/forms/Button";
 import "./styles.scss";
 const mapState = (state) => ({
   products: state.product.products,
+  categories: state.product.categories,
 });
 
-const ManageProduct = (props) => {
+const ManageProduct = () => {
   // Global state
   const dispatch = useDispatch();
   const history = useHistory();
-  const { products } = useSelector(mapState);
+  const { products, categories } = useSelector(mapState);
 
   // Local state
   const [hideModal, setHideModal] = useState(true);
@@ -31,8 +33,14 @@ const ManageProduct = (props) => {
   const [productPrice, setProductPrice] = useState(0);
 
   useEffect(() => {
+    dispatch(fetchCategoriesStart());
     dispatch(fetchProductsStart());
   }, []); // []: Only runs on first initial render of Admin component
+
+  const configCategoriesOption = categories.map((category) => {
+    const { categoryName, documentID } = category;
+    return { name: categoryName, value: categoryName };
+  });
 
   const toggleModal = () => {
     setHideModal(!hideModal);
@@ -67,7 +75,7 @@ const ManageProduct = (props) => {
 
   const resetForm = () => {
     setHideModal(true);
-    setProductCategory("mens");
+    setProductCategory("");
     setProductName("");
     setProductThumbnail("");
     setProductPrice(0);
@@ -99,7 +107,11 @@ const ManageProduct = (props) => {
               return (
                 <tr key={index}>
                   <td>
-                    <img className="thumb" src={productThumbnail} />
+                    <img
+                      className="thumb"
+                      src={productThumbnail}
+                      alt={productName}
+                    />
                   </td>
                   <td>{productName}</td>
                   <td>${productPrice}</td>
@@ -128,16 +140,7 @@ const ManageProduct = (props) => {
           <form onSubmit={handleSubmit}>
             <FormSelect
               label="Category"
-              options={[
-                {
-                  value: "men",
-                  name: "Men",
-                },
-                {
-                  value: "women",
-                  name: "Women",
-                },
-              ]}
+              options={configCategoriesOption}
               handleChange={(e) => setProductCategory(e.target.value)}
             />
 

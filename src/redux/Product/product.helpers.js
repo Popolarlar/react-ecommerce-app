@@ -47,3 +47,40 @@ export const handleUpdateProduct = ({ documentID, product }) => {
       .catch((err) => reject(err));
   });
 };
+
+export const handleFetchCategories = () => {
+  return new Promise((resolve, reject) => {
+    firestore
+      .collection("categories")
+      .get()
+      .then((snapshot) => {
+        const categories = snapshot.docs.map((doc) => {
+          return { ...doc.data(), documentID: doc.id };
+        });
+        resolve(categories);
+      })
+      .catch((err) => reject(err));
+  });
+};
+
+export const handleAddCategory = (category) => {
+  return new Promise((resolve, reject) => {
+    firestore
+      .collection("categories")
+      .doc()
+      .set(category)
+      .then(() => resolve())
+      .catch((err) => reject(err));
+  });
+};
+
+export const handleDeleteCategory = (documentID) => {
+  return new Promise((resolve, reject) => {
+    firestore
+      .collection("categories")
+      .doc(documentID)
+      .delete()
+      .then(() => resolve())
+      .catch((err) => reject(err));
+  });
+};

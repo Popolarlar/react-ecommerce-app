@@ -1,4 +1,4 @@
-.modalOverlay {
+.modal__overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -7,7 +7,7 @@
   background-color: rgba(0, 0, 0, 0.3);
 }
 
-.modal {
+.modal__dialog {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -19,6 +19,6 @@
   padding: 2rem;
   max-width: 60rem;
   height: auto;
-  min-height: 40rem;
+  // min-height: 40rem;
   z-index: 1;
 }

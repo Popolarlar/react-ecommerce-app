@@ -14,7 +14,7 @@ const mapState = (state) => ({
   userErr: state.user.userErr,
 });
 
-const Signup = (props) => {
+const Signup = () => {
   // Global state
   const dispatch = useDispatch();
   const history = useHistory();

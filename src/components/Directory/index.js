@@ -3,16 +3,15 @@ import ShopMen from "./../../assets/shopMen.jpg";
 import ShopWomen from "./../../assets/shopWomen.jpg";
 import "./styles.scss";
 
-const Directory = (props) => {
+const Directory = () => {
   return (
     <div className="directory">
       <div className="wrap">
         <div className="item" style={{ backgroundImage: `url(${ShopMen})` }}>
-          {" "}
-          <a>Shop Mens</a>
+          <a href="/">Shop Mens</a>
         </div>
         <div className="item" style={{ backgroundImage: `url(${ShopWomen})` }}>
-          <a>Shop Womens</a>
+          <a href="/">Shop Womens</a>
         </div>
       </div>
     </div>

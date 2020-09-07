@@ -1,0 +1,22 @@
+.container {
+  width: 100%;
+  max-width: 1450px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  text-align: center;
+
+  @include respond(tab-land) {
+    max-width: 1140px;
+  }
+  @include respond(tab-port) {
+    max-width: 960px;
+  }
+
+  @include respond(tab-port-sm) {
+    max-width: 720px;
+  }
+
+  @include respond(phone) {
+    max-width: 540px;
+  }
+}

@@ -1,6 +1,6 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSmileWink } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faSmileWink } from "@fortawesome/free-solid-svg-icons";
 
 import "./styles.scss";
 
@@ -11,7 +11,7 @@ const UserProfile = ({ currentUser }) => {
       <ul>
         <li>
           <div className="img">
-            <FontAwesomeIcon icon={faSmileWink} />
+            {/* <FontAwesomeIcon icon={faSmileWink} /> */}
           </div>
         </li>
         <li>

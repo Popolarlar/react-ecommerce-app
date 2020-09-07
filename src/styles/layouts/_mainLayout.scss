@@ -1,0 +1,9 @@
+.mainLayout {
+  padding-top: 6.5rem; // Header
+
+   @include respond(phone) {
+    border: none;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}

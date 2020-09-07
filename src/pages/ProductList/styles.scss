@@ -1,0 +1,16 @@
+.product-filter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  select {
+    border: none;
+    outline: none;
+  }
+}
+
+.product-list {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}

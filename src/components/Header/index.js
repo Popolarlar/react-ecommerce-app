@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { signOutStart } from "../../redux/User/user.actions";
 import { checkUserIsAdmin } from "./../../Utils";
-
-import Logo from "./../../assets/logo.png";
 import "./styles.scss";
 
 const mapState = (state) => ({
@@ -23,15 +21,15 @@ const Header = () => {
   };
 
   return (
-    <header className="header">
-      <div className="wrap">
-        <div className="logo">
+    <nav className="flex-nav">
+      <div className="container">
+        <div className="flex-nav__logo">
           <Link to="/">
-            <img src={Logo} alt="Click & Go Logo" />
+            <p>Click & Go</p>
           </Link>
         </div>
-
-        <div className="callToActions">
+        <div className="flex-nav__menu">
+          {/* <a href="#" class="toggle-nav">Menu <i class="ion-navicon-round"></i></a> */}
           {currentUser && (
             <ul>
               {isAdmin && (
@@ -39,6 +37,9 @@ const Header = () => {
                   <Link to="/admin">Admin</Link>
                 </li>
               )}
+              <li>
+                <Link to="/products">Products</Link>
+              </li>
               <li>
                 <Link to="/dashboard">Account</Link>
               </li>
@@ -53,6 +54,9 @@ const Header = () => {
           {!currentUser && (
             <ul>
               <li>
+                <Link to="/products">Products</Link>
+              </li>
+              <li>
                 <Link to="/registration">Register</Link>
               </li>
               <li>
@@ -62,7 +66,52 @@ const Header = () => {
           )}
         </div>
       </div>
-    </header>
+    </nav>
+
+    // <header className="header">
+    //   <div className="wrap">
+    //     <div className="logo">
+    //       <Link to="/">
+    //         <img src={Logo} alt="Click & Go Logo" />
+    //       </Link>
+    //     </div>
+
+    //     <div className="callToActions">
+    //       {currentUser && (
+    //         <ul>
+    //           {isAdmin && (
+    //             <li>
+    //               <Link to="/admin">Admin</Link>
+    //             </li>
+    //           )}
+    //           <li>
+    //             <Link to="/dashboard">Account</Link>
+    //           </li>
+    //           <li>
+    //             <Link onClick={signOut} to="/">
+    //               LogOut
+    //             </Link>
+    //           </li>
+    //         </ul>
+    //       )}
+
+    //       {!currentUser && (
+    //         <ul>
+    //         <li>
+    //             <Link to="/products">Products</Link>
+    //           </li>
+    //           <li>
+    //             <Link to="/registration">Register</Link>
+    //           </li>
+    //           <li>
+    //             <Link to="/login">Login</Link>
+    //           </li>
+
+    //         </ul>
+    //       )}
+    //     </div>
+    //   </div>
+    // </header>
   );
 };
 

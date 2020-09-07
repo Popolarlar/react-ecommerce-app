@@ -23,3 +23,22 @@ export const updateProductStart = (product) => ({
   type: productTypes.UPDATE_PRODUCT_START,
   payload: product,
 });
+
+export const fetchCategoriesStart = () => ({
+  type: productTypes.FETCH_CATEGORIES_START,
+});
+
+export const fetchCategoriesSuccess = (categories) => ({
+  type: productTypes.FETCH_CATEGORIES_SUCCESS,
+  payload: categories,
+});
+
+export const addCategoryStart = (category) => ({
+  type: productTypes.ADD_CATEGORY_START,
+  payload: category,
+});
+
+export const deleteCategoryStart = (documentID) => ({
+  type: productTypes.DELETE_CATEGORY_START,
+  payload: documentID,
+});

@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  fetchUsersStart,
-  addUserStart,
-} from "./../../../redux/User/user.actions";
+import { fetchUsersStart } from "./../../../redux/User/user.actions";
 
 import Modal from "../../../components/Modal";
 import FormInput from "../../../components/forms/FormInput";
@@ -74,7 +71,7 @@ const ManageUser = (props) => {
         <table border="0" cellPadding="10" cellSpacing="0">
           <tbody>
             {users.map((user, index) => {
-              const { displayName, email, userRoles, createDate } = user;
+              const { displayName, email, userRoles, createdDate } = user;
 
               return (
                 <tr key={index}>
@@ -87,7 +84,7 @@ const ManageUser = (props) => {
                       })}
                     </ul>
                   </td>
-                  <td>{createDate}</td>
+                  <td>{createdDate.toString()}</td>
                 </tr>
               );
             })}

@@ -13,7 +13,7 @@ const AdminLayout = (props) => {
   };
 
   return (
-    <div className="adminLayout">
+    <div className="dashboardLayout">
       <div className="controlPanel">
         <div className="sidebar">
           <VerticalNav>
@@ -22,10 +22,19 @@ const AdminLayout = (props) => {
                 <Link to="/admin">Home</Link>
               </li>
               <li>
-                <Link to="/admin/manageUser">Manage User</Link>
+                <Link to="/admin/manageCategory">Categories</Link>
               </li>
               <li>
-                <Link to="/admin/manageProduct">Manage Product</Link>
+                <Link to="/admin/manageProduct">Products</Link>
+              </li>
+              <li>
+                <Link to="/admin/">Orders</Link>
+              </li>
+              <li>
+                <Link to="/admin/manageUser">Users</Link>
+              </li>
+              <li>
+                <Link to="/admin/">Setting</Link>
               </li>
               <li>
                 <Link to="/" onClick={signOut}>
@@ -35,7 +44,7 @@ const AdminLayout = (props) => {
             </ul>
           </VerticalNav>
         </div>
-        <div className="content"> {props.children}</div>
+        <div className="content">{props.children}</div>
       </div>
     </div>
   );

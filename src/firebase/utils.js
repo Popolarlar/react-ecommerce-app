@@ -29,6 +29,7 @@ export const handleUserProfile = async ({ authUser, additionalData }) => {
         email,
         createdDate: timestamp,
         userRoles,
+        isActive: true,
         ...additionalData,
       });
     } catch (error) {
