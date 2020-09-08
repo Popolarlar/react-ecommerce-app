@@ -1,36 +1,56 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchProductsStart } from "../../redux/Product/product.actions";
+
+import {
+  fetchProductsStart,
+  fetchCategoriesStart,
+  filterProducts,
+} from "../../redux/Product/product.actions";
+import { getCategories, getProductsByCategory } from "./../../redux/selectors";
 import Product from "./../../components/Product";
 
 import "./styles.scss";
 
-const mapState = (state) => ({
-  products: state.product.products,
+const mapState = (state, category) => ({
+  products: getProductsByCategory(state, category),
+  categories: getCategories(state),
 });
 
-const ProductList = () => {
+const ProductList = (props) => {
+  // Props
+  const { category } = props;
+
   // Global state
   const dispatch = useDispatch();
-  const { products } = useSelector(mapState);
+  const { products, categories } = useSelector((state) =>
+    mapState(state, category)
+  );
+
   useEffect(() => {
+    dispatch(fetchCategoriesStart());
     dispatch(fetchProductsStart());
   }, []); // []: Only runs on first initial render
 
   return (
-    <div className="container">
-      <div className="product-filter">
-        <h2>All Products</h2>
-        <select>
-          <option value="default">Default</option>
-          <option value="low-to-hight">Price low to high</option>
-          <option value="high-to-low">Price high to low</option>
-        </select>
-      </div>
-      <div className="product-list">
-        {products.map((product, index) => (
-          <Product key={index} product={product} />
+    <div className="container product-catalog">
+      <div className="product-catalog__filter">
+        <Link to={"/products/all"}>all</Link>
+        {categories.map((category, index) => (
+          <Link key={index} to={`/products/${category.categoryName}`}>
+            {category.categoryName}
+          </Link>
         ))}
+      </div>
+
+      <div className="product-catalog__list">
+        {products.length > 0 ? (
+          products.map((product, index) => (
+            <Product key={index} product={product} />
+          ))
+        ) : (
+          <div>no result</div>
+        )}
       </div>
     </div>
   );

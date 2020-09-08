@@ -82,7 +82,7 @@ const App = (props) => {
           )}
         />
         <Route
-          path="/products/:id"
+          path="/products/:cat/:id"
           render={(routerProps) => (
             <MainLayout>
               <ProductDetail documentID={routerProps.match.params.id} />
@@ -90,10 +90,10 @@ const App = (props) => {
           )}
         />
         <Route
-          path="/products"
-          render={() => (
+          path="/products/:cat"
+          render={(routerProps) => (
             <MainLayout>
-              <ProductList />
+              <ProductList category={routerProps.match.params.cat} />
             </MainLayout>
           )}
         />

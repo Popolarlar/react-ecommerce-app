@@ -1,32 +1,25 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchProductsStart } from "../../redux/Product/product.actions";
-
+import { useSelector } from "react-redux";
+import { getProductByID } from "./../../redux/selectors";
 import Button from "./../../components/forms/Button";
 
 import "./styles.scss";
 
-const mapState = (state) => ({
-  products: state.product.products,
-});
+// useEffect doesn't ensure that the data is loaded. Normally your redux state will have an initial value, and when the data is loaded you would update the state by dispatching some action and handling it with on of your reducers, which will re-render your component, then you will have the loaded data inside it.
 
 const ProductDetail = (props) => {
+  // Props
   const { documentID } = props;
 
   // Global state
-  const dispatch = useDispatch();
-  const { products } = useSelector(mapState);
-  useEffect(() => {
-    dispatch(fetchProductsStart());
-  }, []); // []: Only runs on first initial render
-
+  const product = useSelector((state) => getProductByID(state, documentID));
   const {
     productCategory,
     productName,
     productThumbnail,
     productPrice,
-  } = products.find((product) => product.documentID === documentID);
+  } = product;
 
   return (
     <div className="container">
@@ -34,10 +27,10 @@ const ProductDetail = (props) => {
         <nav>
           <ol className="breadcrumb-list">
             <li className="breadcrumb-item">
-              <Link to="/">All</Link>
+              <Link to="/products/all">All</Link>
             </li>
             <li className="breadcrumb-item">
-              <a href="/">{productCategory}</a>
+              <Link to={`/products/${productCategory}`}>{productCategory}</Link>
             </li>
             <li className="breadcrumb-item active">{productName}</li>
           </ol>

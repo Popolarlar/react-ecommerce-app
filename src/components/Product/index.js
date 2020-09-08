@@ -14,7 +14,7 @@ const Product = ({
   return (
     <div className="product">
       <div className="product__img">
-        <Link to={`/products/${documentID}`}>
+        <Link to={`/products/${productCategory}/${documentID}`}>
           <img src={productThumbnail} alt={productName} />
         </Link>
       </div>

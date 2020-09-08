@@ -38,7 +38,7 @@ const Header = () => {
                 </li>
               )}
               <li>
-                <Link to="/products">Products</Link>
+                <Link to="/products/all">Products</Link>
               </li>
               <li>
                 <Link to="/dashboard">Account</Link>
@@ -54,7 +54,7 @@ const Header = () => {
           {!currentUser && (
             <ul>
               <li>
-                <Link to="/products">Products</Link>
+                <Link to="/products/all">Products</Link>
               </li>
               <li>
                 <Link to="/registration">Register</Link>

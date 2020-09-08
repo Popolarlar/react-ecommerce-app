@@ -122,6 +122,7 @@ export function* addCategoryStart({ payload: { categoryName } }) {
       categoryName,
       categoryCount: 0,
       categoryAdminUID: auth.currentUser.uid,
+      categorySortOrder: 99,
       createdDate: timestamp,
     });
 

@@ -52,6 +52,7 @@ export const handleFetchCategories = () => {
   return new Promise((resolve, reject) => {
     firestore
       .collection("categories")
+      .orderBy("categorySortOrder")
       .get()
       .then((snapshot) => {
         const categories = snapshot.docs.map((doc) => {

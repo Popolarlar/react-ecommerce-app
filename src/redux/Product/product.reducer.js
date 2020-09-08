@@ -3,6 +3,7 @@ import productTypes from "./product.types";
 const INITIAL_STATE = {
   products: [],
   categories: [],
+  categoryFilter: "",
 };
 
 const productReducer = (state = INITIAL_STATE, action) => {
