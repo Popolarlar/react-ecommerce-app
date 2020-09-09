@@ -1,19 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { getProductByID } from "./../../redux/selectors";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchProductByIDStart } from "../../redux/Product/product.actions";
+import {
+  getDetailProduct,
+  getIsLoading,
+  getError,
+} from "./../../redux/selectors";
 import Button from "./../../components/forms/Button";
 
 import "./styles.scss";
 
-// useEffect doesn't ensure that the data is loaded. Normally your redux state will have an initial value, and when the data is loaded you would update the state by dispatching some action and handling it with on of your reducers, which will re-render your component, then you will have the loaded data inside it.
+const mapState = (state) => ({
+  product: getDetailProduct(state),
+  isloading: getIsLoading(state),
+  error: getError(state),
+});
 
 const ProductDetail = (props) => {
   // Props
   const { documentID } = props;
 
   // Global state
-  const product = useSelector((state) => getProductByID(state, documentID));
+  const { product, isloading, error } = useSelector(mapState);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchProductByIDStart(documentID));
+
+    return () => {
+      console.log("Do some cleanup");
+    };
+  }, [dispatch]);
+
   const {
     productCategory,
     productName,
@@ -21,22 +39,8 @@ const ProductDetail = (props) => {
     productPrice,
   } = product;
 
-  return (
-    <div className="container">
-      <div className="second-nav">
-        <nav>
-          <ol className="breadcrumb-list">
-            <li className="breadcrumb-item">
-              <Link to="/products/all">All</Link>
-            </li>
-            <li className="breadcrumb-item">
-              <Link to={`/products/${productCategory}`}>{productCategory}</Link>
-            </li>
-            <li className="breadcrumb-item active">{productName}</li>
-          </ol>
-        </nav>
-      </div>
-
+  const ProductDetailInfo = () => {
+    return (
       <div className="product-detail">
         <div className="product-detail__gallery">
           <div className="product-image">
@@ -90,6 +94,38 @@ const ProductDetail = (props) => {
           </p>
         </div>
       </div>
+    );
+  };
+
+  return (
+    <div className="container">
+      <div className="second-nav">
+        <nav>
+          <ol className="breadcrumb-list">
+            <li className="breadcrumb-item">
+              <Link to="/products/all">All</Link>
+            </li>
+            {productCategory && (
+              <li className="breadcrumb-item">
+                <Link to={`/products/${productCategory}`}>
+                  {productCategory}
+                </Link>
+              </li>
+            )}
+            {productName && (
+              <li className="breadcrumb-item active">{productName}</li>
+            )}
+          </ol>
+        </nav>
+      </div>
+      {isloading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p>{error}</p>
+      ) : (
+        <ProductDetailInfo />
+      )}
+
       <h3>You may also like</h3>
       <div className="related-products">
         <div className="related-products__item">

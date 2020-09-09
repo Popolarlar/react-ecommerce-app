@@ -34,6 +34,7 @@ import Footer from "./components/Footer";
 
 import "./styles/main.scss";
 import Profile from "./pages/Dashboard/Profile";
+import { fetchProductsStart } from "./redux/Product/product.actions";
 
 const App = (props) => {
   const dispatch = useDispatch();

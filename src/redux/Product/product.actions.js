@@ -9,6 +9,21 @@ export const fetchProductsSuccess = (products) => ({
   payload: products,
 });
 
+export const fetchProductByIDStart = (documentID) => ({
+  type: productTypes.FETCH_PRODUCT_BY_ID_START,
+  payload: documentID,
+});
+
+export const fetchProductByIDSuccess = (product) => ({
+  type: productTypes.FETCH_PRODUCT_BY_ID_SUCCESS,
+  payload: product,
+});
+
+export const fetchProductByIDFailure = (error) => ({
+  type: productTypes.FETCH_PRODUCT_BY_ID_FAILURE,
+  payload: error,
+});
+
 export const addProductStart = (product) => ({
   type: productTypes.ADD_PRODUCT_START,
   payload: product,

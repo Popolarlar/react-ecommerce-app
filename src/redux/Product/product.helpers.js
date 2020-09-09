@@ -15,6 +15,24 @@ export const handleFetchProducts = () => {
   });
 };
 
+export const handleFetchProductByID = (documentID) => {
+  return new Promise((resolve, reject) => {
+    firestore
+      .collection("products")
+      .doc(documentID)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          const product = { ...doc.data(), documentID: doc.id };
+          resolve(product);
+        } else {
+          reject("No such document!");
+        }
+      })
+      .catch((err) => reject(err));
+  });
+};
+
 export const handleAddProduct = (product) => {
   return new Promise((resolve, reject) => {
     firestore

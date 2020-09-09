@@ -3,19 +3,14 @@ import { createSelector } from "reselect";
 // State selector
 export const getProducts = (state) => state.product.products;
 export const getCategories = (state) => state.product.categories;
+export const getDetailProduct = (state) => state.product.detailProduct;
+export const getIsLoading = (state) => state.product.isLoading;
+export const getError = (state) => state.product.error;
 
 // Variable selector (create a selector that ignores the state variable and return just the passed param
-const getDocumentID = (_, documentID) => documentID;
 const getCategory = (_, category) => category;
 
 // Combined selector
-export const getProductByID = createSelector(
-  getProducts,
-  getDocumentID,
-  (products, documentID) =>
-    products.find((product) => product.documentID === documentID)
-);
-
 export const getProductsByCategory = createSelector(
   getProducts,
   getCategory,

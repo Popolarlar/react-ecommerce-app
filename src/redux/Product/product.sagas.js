@@ -5,6 +5,8 @@ import {
   fetchProductsStart,
   fetchCategoriesSuccess,
   fetchCategoriesStart,
+  fetchProductByIDSuccess,
+  fetchProductByIDFailure,
 } from "./product.actions";
 import {
   handleAddProduct,
@@ -14,13 +16,14 @@ import {
   handleFetchCategories,
   handleAddCategory,
   handleDeleteCategory,
+  handleFetchProductByID,
 } from "./product.helpers";
 import { auth } from "./../../firebase/utils";
 
 // Fetch products
 export function* fetchProducts() {
   try {
-    const products = yield handleFetchProducts();
+    const products = yield call(handleFetchProducts);
     yield put(fetchProductsSuccess(products));
   } catch (error) {
     console.error(error);
@@ -30,13 +33,26 @@ export function* onFetchProductsStart() {
   yield takeLatest(productTypes.FETCH_PRODUCTS_START, fetchProducts);
 }
 
+// Fetch product by documentID
+export function* fetchProductByID({ payload: documentID }) {
+  try {
+    const product = yield call(handleFetchProductByID, documentID);
+    yield put(fetchProductByIDSuccess(product));
+  } catch (error) {
+    yield put(fetchProductByIDFailure(error));
+  }
+}
+export function* onFetchProductByIDStart() {
+  yield takeLatest(productTypes.FETCH_PRODUCT_BY_ID_START, fetchProductByID);
+}
+
 // Add product
 export function* addProductStart({
   payload: { productCategory, productName, productThumbnail, productPrice },
 }) {
   try {
     const timestamp = new Date();
-    yield handleAddProduct({
+    yield call(handleAddProduct, {
       productCategory,
       productName,
       productThumbnail,
@@ -57,7 +73,7 @@ export function* onAddProductStart() {
 // Delete product
 export function* deleteProduct({ payload: documentID }) {
   try {
-    yield handleDeleteProduct(documentID);
+    yield call(handleDeleteProduct, documentID);
     yield put(fetchProductsStart());
   } catch (error) {
     console.error(error);
@@ -79,7 +95,7 @@ export function* updateProductStart({
 }) {
   try {
     const timestamp = new Date();
-    yield handleUpdateProduct({
+    yield call(handleUpdateProduct, {
       documentID,
       product: {
         productCategory,
@@ -103,7 +119,7 @@ export function* onUpdateProductStart() {
 // Fetch categories
 export function* fetchCategories() {
   try {
-    const categories = yield handleFetchCategories();
+    const categories = yield call(handleFetchCategories);
     yield put(fetchCategoriesSuccess(categories));
   } catch (error) {
     console.error(error);
@@ -118,7 +134,7 @@ export function* addCategoryStart({ payload: { categoryName } }) {
   try {
     const timestamp = new Date();
 
-    yield handleAddCategory({
+    yield call(handleAddCategory, {
       categoryName,
       categoryCount: 0,
       categoryAdminUID: auth.currentUser.uid,
@@ -138,7 +154,7 @@ export function* onAddCategoryStart() {
 // Delete category
 export function* deleteCategory({ payload: documentID }) {
   try {
-    yield handleDeleteCategory(documentID);
+    yield call(handleDeleteCategory, documentID);
     yield put(fetchCategoriesStart());
   } catch (error) {
     console.error(error);
@@ -152,6 +168,7 @@ export function* onDeleteCategoryStart() {
 export default function* userSagas() {
   yield all([
     call(onFetchProductsStart),
+    call(onFetchProductByIDStart),
     call(onAddProductStart),
     call(onDeleteProductStart),
     call(onUpdateProductStart),
